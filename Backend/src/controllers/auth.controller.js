@@ -3,7 +3,7 @@ import User from "../models/user.model.js";
 import bcrypt from "bcryptjs";
 import cloudinary from "../lib/cloudinary.js";
 
-export const signupUser = async (req, res) => {
+export const signup = async (req, res) => {
   const { fullName, email, password } = req.body;
   try {
     if (!fullName || !email || !password) {
@@ -46,7 +46,7 @@ export const signupUser = async (req, res) => {
   }
 };
 
-export const loginUser = async (req, res) => {
+export const login = async (req, res) => {
   const { email, password } = req.body;
   try {
     const user = await User.findOne({ email });
@@ -74,7 +74,7 @@ export const loginUser = async (req, res) => {
   }
 };
 
-export const logoutUser = (req, res) => {
+export const logout = (req, res) => {
   try {
     res.cookie("jwt", "", { maxAge: 0 });
     res.status(200).json({ message: "Logged out successfully" });
@@ -107,7 +107,7 @@ export const updateProfile = async (req, res) => {
   }
 };
 
-export const currentUser = (req, res) => {
+export const checkAuth = (req, res) => {
   try {
     res.status(200).json(req.user);
   } catch (error) {
@@ -115,5 +115,3 @@ export const currentUser = (req, res) => {
     res.status(500).json({ message: "Internal Server Error" });
   }
 };
-
-export {currentUser,signupUser,loginUser,logoutUser,updateProfile};
